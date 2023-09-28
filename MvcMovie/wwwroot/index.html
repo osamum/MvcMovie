@@ -1,0 +1,172 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Movies SPA</title>
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/site.css?v=pAGv4ietcJNk_EwsQZ5BN9-K4MuNYS2a9wl4Jw-q9D0" />
+    <link rel="stylesheet" href="/MvcMovie.styles.css?v=6MhJKjMFgcTxvAhochm-kCMUcMQ4m53hSbDFufK9KQo" />
+    <script src="lib/DOMTemplate.js"></script>
+    <script src="js/site.js"></script>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/Movies">SPA Movie</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container" id="base">
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2023 - MvcMovie - <a href="/Home/Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    <template id="rowElements">
+        <tr>
+            <td data-app-option="{'innerText':'title'}"></td>
+            <td data-app-option="{'innerText':'releaseDate'}"></td>
+            <td data-app-option="{'innerText':'genre'}"></td>
+            <td data-app-option="{'innerText':'price'}"></td>
+            <td data-app-option="{'innerText':'rating'}"></td>
+            <td>
+                <a data-app-option="{'href':'editHref'}">Edit</a> |
+                <a data-app-option="{'href':'detailHref'}">Details</a> |
+                <a data-app-option="{'href':'deleteHref'}">Delete</a>
+            </td>
+        </tr>
+    </template>
+
+    <template id="indexView">
+        <main role="main" class="pb-3">
+            <h1>Index</h1>
+            <p>
+                <a href="javaScript:showCreateView()" id="CreateNew">Create New</a>
+            </p><p>
+                Title: <input type="text" id="searchString" />
+                <input type="button" value="Filter" id="searchButton" />
+            </p>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Title
+                        </th>
+                        <th>
+                            Release Date
+                        </th>
+                        <th>
+                            Genre
+                        </th>
+                        <th>
+                            Price
+                        </th>
+                        <th>
+                            Rating
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="itemList" data-template="rowElements">
+                </tbody>
+            </table>
+        </main>
+    </template>
+
+
+    <template id="createView">
+        <main role="main" class="pb-3">
+            <h1>Create</h1>
+            <h4>Movie</h4>
+            <hr />
+            <div class="row">
+                <div class="col-md-4">
+                    <form action="/api/Movie" method="post" id="movieForm">
+                        <div class="form-group">
+                            <label class="control-label" for="Title">Title</label>
+                            <input class="form-control" type="text" data-val="true" data-val-required="The Title field is required." id="Title" data-app-option="{'value':'title'}" />
+                            <span class="text-danger field-validation-valid" data-valmsg-for="Title" data-valmsg-replace="true"></span>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="Rating">Rating</label>
+                            <input class="form-control" type="text" id="Rating" data-app-option="{'value':'rating'}" />
+                            <span class="text-danger field-validation-valid" data-valmsg-for="Rating" data-valmsg-replace="true"></span>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="ReleaseDate">Release Date</label>
+                            <input class="form-control" type="date" data-val="true" data-val-required="The Release Date field is required." id="ReleaseDate" data-app-option="{'value':'releaseDate'}" />
+                            <span class="text-danger field-validation-valid" data-valmsg-for="ReleaseDate" data-valmsg-replace="true"></span>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="Genre">Genre</label>
+                            <input class="form-control" type="text" data-val="true" data-val-required="The Genre field is required." id="Genre" data-app-option="{'value':'genre'}" />
+                            <span class="text-danger field-validation-valid" data-valmsg-for="Genre" data-valmsg-replace="true"></span>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="Price">Price</label>
+                            <input class="form-control" type="text" data-val="true" data-val-number="The field Price must be a number." data-val-required="The Price field is required." id="Price" data-app-option="{'value':'price'}" />
+                            <span class="text-danger field-validation-valid" data-valmsg-for="Price" data-valmsg-replace="true"></span>
+                        </div>
+                        <div class="form-group">
+                            <input id="submitButton" type="button" value="Create" class="btn btn-primary" data-app-option="{'value':'updateCaption'}" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div>
+                <a href="javaScript:showListView()">Back to List</a>
+            </div>
+        </main>
+    </template>
+
+    <template id="datailView">
+        <main b-0uvum7rpp4 role="main" class="pb-3">
+            <h1>Details</h1>
+            <div id="movieInfo">
+                <h4>Movie</h4>
+                <hr />
+                <dl class="row">
+                    <dt class="col-sm-2">
+                        Title
+                    </dt>
+                    <dd class="col-sm-10" data-app-option="{'innerText':'title'}"></dd>
+                    <dt class="col-sm-2">
+                        Rating
+                    </dt>
+                    <dd class="col-sm-10" data-app-option="{'innerText':'rating'}"></dd>
+                    <dt class="col-sm-2">
+                        Release Date
+                    </dt>
+                    <dd class="col-sm-10" data-app-option="{'innerText':'releaseDate'}"></dd>
+                    <dt class="col-sm-2">
+                        Genre
+                    </dt>
+                    <dd class="col-sm-10" data-app-option="{'innerText':'genre'}"></dd>
+                    <dt class="col-sm-2">
+                        Price
+                    </dt>
+                    <dd class="col-sm-10" data-app-option="{'innerText':'genre'}"></dd>
+                </dl>
+                <input id="deleteButton" type="button" value="Delete" class="btn btn-danger" style="display:none">
+                <a id="editLink" data-app-option="{'href':'editHref'}">Edit</a> |
+                <a href="javaScript:showListView()">Back to List</a>
+            </div>
+
+        </main>
+    </template>
+
+        <script>
+            init();
+        </script>
+</body>
+</html>
