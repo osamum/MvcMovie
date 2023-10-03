@@ -101,12 +101,16 @@ PC ローカルにクローンしたプロジェクトをビルドして実行�
     
     一見すると同じ画面に見えますが、左上に '**SPA**' とあるように、これは Single Page Application (SPA) となっており、クライアントサイドで JavaScript によって生成された画面です。
 
+    <img src="readme_images/View_SPA.png" width="700">
+
 10. Web ブラウザーのナビゲーションバーの URL を以下のように変更します
 
     ```
     http://localhost:61260/api/movie
     ```
     この URL は REST API のエンドポイントとなっており、JSON 形式のデータが返されます。前述の SPA もこの REST API を使用して動作しています。
+
+    ![REST API](readme_images/movie_appAPI.png)
 
 ここまでの手順で、本プロジェクトのビルドと実行が完了しました。
 
