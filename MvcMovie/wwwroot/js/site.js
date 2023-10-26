@@ -111,30 +111,38 @@ async function postData(id) {
         "rating": $id('Rating').value
     };
 
-    if (id) {
-        data.id = id
+    try {
+        if (id) {
+            data.id = id
+            const response = await fetch(`/api/Movie/${id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            });
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            showListView();
+            return;
 
-        const response = await fetch(`/api/Movie/${id}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-        });
-        const responData = await response.json();
-        showListView();
-        return responData.id;
-
-    } else {
-        const response = await fetch('/api/Movie', {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data), 
-        });
-        const responData = await response.json();
-        showListView();
-        return responData.id;
+        } else {
+            const response = await fetch(MOVIEAPP_API, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            });
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const responData = await response.json();
+            showListView();
+            return responData.id;
+        }
+    } catch (e) {
+        $id('display').innerText = `Error : ${e.message}`;
     }
 }
