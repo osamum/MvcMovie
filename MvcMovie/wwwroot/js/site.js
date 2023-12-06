@@ -27,9 +27,14 @@ function showListView() {
 async function rederMovieList(arg, itemListCtrl) {
     const END_POINT = 'api/movie' + arg;
     const response = await fetch(END_POINT);
-    movieListData = await response.json();
+    const responseData = await response.json();
+    if (Array.isArray(responseData)) {
+        movieListData = responseData;
+    } else {
+        movieListData = [responseData];
+    }
 
-    let cnt= 0;
+    let cnt = 0;
     for (item of movieListData) {
         item.editHref = `javaScript:showEditView(${cnt})`;
         item.detailHref = `javaScript:showDetailsView(${cnt})`;
