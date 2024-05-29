@@ -1,0 +1,258 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Movie API",
+    "description": "Azure App Service ハンズオンの演習用アプリケーションの API です。",
+    "termsOfService": "https://github.com/osamum/MvcMovie",
+    "contact": {
+      "name": "Example Contact",
+      "url": "https://github.com/osamum/Azure-AppService-handson/blob/main/preparation.md#5-%E3%83%AD%E3%83%BC%E3%82%AB%E3%83%AB%E7%92%B0%E5%A2%83%E3%81%A7%E3%81%AE%E3%83%97%E3%83%AD%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%81%AE%E5%AE%9F%E8%A1%8C"
+    },
+    "license": {
+      "name": "Example License",
+      "url": "https://github.com/osamum/Azure-AppService-handson?tab=readme-ov-file#license"
+    },
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "https://movieapp-xyz.azurewebsites.net",
+      "description": "Azure App Service にデプロイされた API"
+    },
+    {
+      "url": "http://localhost:61261",
+      "description": "ローカルで実行中の API"
+    }
+  ],
+  "paths": {
+    "/api/Movie": {
+      "get": {
+        "summary": "映画の一覧を取得",
+        "description": "登録されている映画の一覧を取得します",
+        "tags": [
+          "Movie"
+        ],
+        "operationId": "GetAllMovies",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Movie"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "映画を登録",
+        "description": "映画を新規に登録します",
+        "tags": [
+          "Movie"
+        ],
+        "operationId": "CreateMovie",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Movie"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Movie"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Movie/{id}": {
+      "get": {
+        "summary": "任意の映画の情報を取得",
+        "description": "URL の最後の階層に指定された数字を id にもつ映画の情報を取得します",
+        "tags": [
+          "Movie"
+        ],
+        "operationId": "GetMovieById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Movie"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "put": {
+        "summary": "任意の映画の情報を更新",
+        "description": "URL の最後の階層に指定された数字を id にもつ映画の情報を更新します",
+        "tags": [
+          "Movie"
+        ],
+        "operationId": "UpdateMovie",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Movie"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "delete": {
+        "summary": "任意の映画を削除",
+        "description": "URL の最後の階層に指定された数字を id にもつ映画を削除します",
+        "tags": [
+          "Movie"
+        ],
+        "operationId": "DeleteMovie",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/Movie/find/{searchString}": {
+      "get": {
+        "summary": "映画を検索",
+        "description": "URL の最後に指定されたキーワードをタイトルに含む映画を削除します",
+
+        "tags": [
+          "Movie"
+        ],
+        "operationId": "FindMovieName",
+        "parameters": [
+          {
+            "name": "searchString",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Movie"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Movie": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "releaseDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "genre": {
+            "type": "string",
+            "nullable": true
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
+          },
+          "rating": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}
